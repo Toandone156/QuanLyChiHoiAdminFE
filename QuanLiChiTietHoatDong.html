@@ -21,7 +21,9 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- Datatables -->
+    <link href="DataTables/datatables.min.css" rel="stylesheet">
 
 
 </head>
@@ -312,12 +314,10 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- DataTables JavaScript-->
+    <script src="DataTables/datatables.min.js"></script>
+    <script src="DataTables/dataTables.responsive.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
     <script>
         var table = $('#example').DataTable({
             columnDefs: [
@@ -327,7 +327,10 @@
                 }
             ],
             order: [],
-            lengthMenu: [5, 10, 15, { label: 'All', value: -1 }]
+            lengthMenu: [
+                [5, 10, 20, -1],
+                [5, 10, 20, 'Toàn bộ'],
+            ],
         });
          
         $('#submit').on('click', function (e) {

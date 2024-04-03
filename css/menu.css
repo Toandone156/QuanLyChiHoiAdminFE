@@ -34,3 +34,6 @@
 .item-quantity {
     width: 44px!important;
 }
+.btn > .text{
+    text-wrap: nowrap;
+}
