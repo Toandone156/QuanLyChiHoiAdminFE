@@ -22,8 +22,51 @@
 
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-
+    <style>
+        .delete{
+            text-decoration: line-through;
+        }/* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <!-- test -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 </head>
 
 <body id="page-top">
@@ -125,6 +168,11 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
         </ul>
 
         <!-- Content Wrapper -->
@@ -178,12 +226,21 @@
                     <div class="card shadow mb-4 ">
                         <div class="card-header py-3 d-flex justify-content-between">
                             <div class="h5 font-weight-bold text-primary align-self-center">Thông tin của Thu gom pin</div>
+                          
+                           <div>
                             <a href="#" id="submit" class="btn btn-success btn-icon-split mt-2">
                                 <span class="text">Lưu dữ liệu</span>
                                 <span class="icon text-white-50">
                                     <i class="fas fa-save"></i>
                                 </span>
                             </a>
+                            <a href="#" id="myBtn" class="btn btn-warning btn-icon-split mt-2">
+                                <span class="text">Thêm chi hội</span>
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                            </a>
+                           </div>
                         </div>
                         <div class="card-body">
                             <table id="example" class="table table-bordered" style="width:100%">
@@ -192,43 +249,100 @@
                                         <th>Chi hội</th>
                                         <th>Số lượng</th>
                                         <th>Số tiền</th>
+                                        <th>Xóa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Chi hội 8 Thuận An -Phường An Khê</td>
-                                        <td><input type="text" class="form-control" key="số lượng" id="row-1-age" name="row-1-age" value="5"></td>
-                                        <td><input type="text" class="form-control" id="row-1-position" name="row-1-position" value="600000"></td>
+                                    <tr id="1">
+                                        <td>8 Thuận An</td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" key="số lượng" id="row-1-1" name="row-1-age" value="5"></td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-1-2" name="row-1-position" value="600000"></td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger btn-icon-split" onclick="remove(this)">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <span class="text">Xóa</span>
+                                            </a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Chi hội 6 Tân An -Phường Tân Chính</td>
-                                        <td><input type="text" class="form-control" id="row-2-age" name="row-1-age" value="5"></td>
-                                        <td><input type="text" class="form-control" id="row-2-position" name="row-1-position" value="200000"></td>
+                                    <tr id="2">
+                                        <td>Tân An A3</td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-2-1" name="row-1-age" value="5"></td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-2-2" name="row-1-position" value="200000"></td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger btn-icon-split"  onclick="remove(this)"> 
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <span class="text">Xóa</span>
+                                            </a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Chi hội Trung Bình A3 -Phường Thạc Gián</td>
-                                        <td><input type="text" class="form-control" id="row-3-age" name="row-1-age" value="2"></td>
-                                        <td><input type="text" class="form-control" id="row-3-position" name="row-1-position" value="100000"></td>
+                                    <tr id="3">
+                                        <td>Tân An A3</td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-3-1" name="row-1-age" value="2"></td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-3-2" name="row-1-position" value="100000"></td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger btn-icon-split"  onclick="remove(this)">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <span class="text">Xóa</span>
+                                            </a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Chi hội Xuân Hòa 1 -Phường Thanh Khê Đông</td>
-                                        <td><input type="text" class="form-control" id="row-4-age" name="row-1-age" value="1"></td>
-                                        <td><input type="text" class="form-control" id="row-4-position" name="row-1-position" value="200000"></td>
+                                    <tr id="4">
+                                        <td>Xuân Hòa 1</td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-4-age" name="row-1-age" value="1"></td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-4-position" name="row-1-position" value="200000"></td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger btn-icon-split"  onclick="remove(this)">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <span class="text">Xóa</span>
+                                            </a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Chi hội 1 - Phường Thanh Khê Tây</td>
-                                        <td><input type="text" class="form-control" id="row-5-age" name="row-1-age" value="5"></td>
-                                        <td><input type="text" class="form-control" id="row-5-position" name="row-1-position" value="300000"></td>
+                                    <tr id="5">
+                                        <td>1</td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-5-age" name="row-1-age" value="5"></td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-5-position" name="row-1-position" value="300000"></td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger btn-icon-split" onclick="remove(this)">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <span class="text">Xóa</span>
+                                            </a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Chi hội 14 - Phường Tam Thuận</td>
-                                        <td><input type="text" class="form-control" id="row-6-age" name="row-1-age" value="5"></td>
-                                        <td><input type="text" class="form-control" id="row-6-position" name="row-1-position" value="1000000"></td>
+                                    <tr id="6">
+                                        <td>14</td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-6-age" name="row-1-age" value="5"></td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-6-position" name="row-1-position" value="1000000"></td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger btn-icon-split" onclick="remove(this)">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <span class="text">Xóa</span>
+                                            </a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Chi hội Trung Hòa B3 - Phường Vĩnh Trung</td>
-                                        <td><input type="text" class="form-control" id="row-7-age" name="row-1-age" value="5"></td>
-                                        <td><input type="text" class="form-control" id="row-7-position" name="row-1-position" value="600000"></td>
+                                    <tr id="7">
+                                        <td>Trung Hòa B3</td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-7-age" name="row-1-age" value="5"></td>
+                                        <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-7-position" name="row-1-position" value="600000"></td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger btn-icon-split" onclick="remove(this)">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <span class="text">Xóa</span>
+                                            </a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -280,6 +394,35 @@
             </div>
         </div>
     </div>
+    
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+        <span class="closeModel">&times;</span>
+            <p>Thêm chi hội vào mô hình - </p>
+            <p id="idSelectDropDown"></p>
+            <div>
+                
+                <input type="text" class="form-control dropdown-search dropdown-toggle" placeholder="tìm kiếm..." id="chihoiDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div id="dropdown-chihoi" class="dropdown-menu dropdown-chihoi" data-live-search="true" labelledby="chihoiDropDown">
+                    <a id="27" class="dropdown-item" href="#">Option 1</a>
+                    <a id="28" class="dropdown-item" href="#">Option 2</a>
+                    <a id="29" class="dropdown-item" href="#">Option 3</a>
+                </div>
+            </div>
+           <div class="m-auto">
+                <a href="#" id="submitThemChiHoi" class="btn btn-success btn-icon-split mt-2">
+                    <span class="text">Thêm chi hội</span>
+                    <span class="icon text-white-50">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </a>
+           </div>
+        </div>
+        
+    </div>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -296,36 +439,311 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/2.0.3/sorting/absolute.js"></script>
     <script>
+        // data
+        var json = [
+        ];
+        var jsonChiHoiThamGia = [
+            {id: 1, name:"8 Thuận An"},
+            {id: 2, name:"Tân An A3"},
+            {id: 3, name:"Trung Bình A3"},
+            {id: 4, name:"Xuân Hòa 1"},
+            {id: 5, name:"1"},
+            {id: 6, name:"14"},
+            {id: 7, name:"Trung Hòa B"},
+        ]
+        var jsonChiHoiKhongThamGia = [
+            {id: 8, name:"1 Thanh Khê - Hòa Khê"},
+            {id: 9, name:"1 Thanh Khê"},
+            {id: 10, name:"6 Tân An B"},
+            {id: 11, name:"Thuận An 1"}
+        ]
+        var dataFormat = {"Số lượng":0, "Số tiền": 0}
+        // delete
+        function remove(e){
+            debugger
+            var tr = e.closest('tr'); 
+            var id = tr.id
+            table.row(tr).remove().draw()
+
+            var temp = null
+            for(var i = 0; i < jsonChiHoiThamGia.length; i++){
+                if(jsonChiHoiThamGia[i].id == id){
+                    temp = jsonChiHoiThamGia[i]
+                    jsonChiHoiThamGia.splice(i, 1);
+                    break;
+                }
+            }
+            jsonChiHoiKhongThamGia.push(temp)
+            json.push({id:id, data:null})   
+
+            console.log({json:json})
+            console.log({jsonChiHoiThamGia:jsonChiHoiThamGia})
+            console.log({jsonChiHoiKhongThamGia:jsonChiHoiKhongThamGia})
+        }
+
+        // update
+        function update(e){
+                debugger
+                var tr =  e.closest("tr")
+                var inputs = tr.getElementsByTagName("input")
+                var id = tr.id
+                for (var i = 0; i < json.length; i++) {
+                    if (json[i].id == id) {
+                        json.splice(i, 1);
+                        break;
+                    }
+                }
+                var data = { id: id, data:[]}
+                for(let i = 0; i < inputs.length; i++){
+                    let input = inputs[i]
+                    if (input== undefined || input == null) continue
+                    data.data.push(input.value)
+                }
+                
+                for(var i = 0; i < json.length; i++){
+                    if(json[i].id == id){
+                        temp = json[i]
+                        json.splice(i, 1);
+                        break;
+                    }
+                }
+    
+                json.push(data);
+                console.log({json:json})
+    
+            
+            
+        }
+    
+        // add 
+        $('#submitThemChiHoi').on('click', function(e){
+            debugger
+            var id = document.getElementById('idSelectDropDown').innerHTML
+            var temp = null
+            for (var i = 0; i < jsonChiHoiKhongThamGia.length; i++) {
+                if (jsonChiHoiKhongThamGia[i].id == id) {
+                    temp = jsonChiHoiKhongThamGia[i]
+                    jsonChiHoiKhongThamGia.splice(i, 1)
+                    var tbody = document.getElementsByTagName('tbody')[0]
+                    table.row.add(getDivChiHoiDaThamGia(temp.id, temp.name)).draw();
+                    break;
+                }
+            }
+
+            for(var i = 0; i < json.length; i++){
+                if(json[i].id == id){
+                    temp = json[i]
+                    json.splice(i, 1);
+                    break;
+                }
+            }
+
+            json.push({ id: temp.id, data:[]});
+            jsonChiHoiThamGia.push({id:temp.id,  name: temp.name})
+            
+            console.log({json:json})
+            console.log({jsonChiHoiThamGia:jsonChiHoiThamGia})
+            console.log({jsonChiHoiKhongThamGia:jsonChiHoiKhongThamGia})
+
+            modal.style.display = "none";
+
+            } )
+        
+        // get div
+        /* <tr id="7">
+            <td>Trung Hòa B3</td>
+            <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-7-age" name="row-1-age" value="5"></td>
+            <td><input type="text" onkeyup="update(this)" class="form-control dataInput" id="row-7-position" name="row-1-position" value="600000"></td>
+            <td>
+                <a href="#" class="btn btn-danger btn-icon-split"  onclick="remove(this)">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-trash"></i>
+                    </span>
+                    <span class="text">Xóa</span>
+                </a>
+            </td>
+        </tr>*/
+        function getDivChiHoiDaThamGia(id, name ){
+            var tr = document.createElement("tr")
+            tr.id = id
+
+            var i1 = document.createElement("i")
+            i1.className = "fas fa-trash"
+            var span1 = document.createElement("span");
+            span1.className = "icon text-white-50" 
+            span1.append(i1)
+            var span2 = document.createElement("span");
+            span2.className = "text"
+            span2.innerHTML = "Xóa"
+            var a1 = document.createElement("a")
+            a1.className = "btn btn-danger btn-icon-split"
+            a1.href = "#"
+            a1.onclick = () => remove(input);
+            a1.append(span1)
+            a1.append(span2)
+            var td1 = document.createElement("td")
+            td1.append(a1)
+
+            var td2 = document.createElement("td")
+            td2.innerHTML = name
+
+            tr.append(td2)
+
+            //<td><input type="text" class="form-control dataInput" id="row-1-2" name="row-1-position" value="600000"></td>
+            var count = 0;
+            for(var ele in dataFormat){
+                var td= document.createElement("td")
+                var input = document.createElement("input")
+                input.type = "text"
+                input.className = "form-control dataInput"
+                input.id = "row" + "-"+ id +"" + ++count 
+                input.onkeyup = () => update(input);
+                input.name = input.id
+                input.value = "0"
+                td.append(input)    
+                tr.append(td)
+            }
+
+            tr.append(td1)
+            
+            return tr
+        }
+
+       
+
         var table = $('#example').DataTable({
             columnDefs: [
                 {
                     orderable: false,
-                    targets: ['_all']
+                    targets: [-1]
+                },
+                {
+                    targets:3,
+                    width:'5%'
                 }
             ],
             lengthMenu:[
                 [5,10,20,-1],
                 [5,10,20, "Toàn bộ"]
             ],
-            order: []
+            order: [[1, "asc"]],
+            language: {
+                "decimal":        "",
+                "emptyTable":     "Không có dữ liệu",
+                "info":           "Hiển thị từ dòng _START_ tới dòng _END_ của _TOTAL_ dòng",
+                "infoEmpty":      "Hiển thị từ dòng 0 tới dòng 0 của 0 dòng",
+                "infoFiltered":   "5",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Hiển thị _MENU_ dòng",
+                "loadingRecords": "Đang tải...",
+                "processing":     "",
+                "search":         "Tìm kiếm:",
+                "zeroRecords":    "Dữ liệu không tìm thấy",
+                "paginate": {
+                    "first":      "Đầu tiên",
+                    "last":       "Cuối cùng",
+                    "next":       "Sau",
+                    "previous":   "Trước"
+                },
+                "aria": {
+                    "orderable":  "Sắp xếp tăng dần theo cột này",
+                    "orderableReverse": "Sắp xếp giảm dần theo cột này"
+                }
+              }
         });
          
         $('#submit').on('click', function (e) {
             e.preventDefault();
-            debugger
-            var data = table.$('input, select').serialize();
+            alert(JSON.stringify(json))
+            /*var data = table.$('input, select').serialize();
          
             alert(
                 'The following data would have been submitted to the server: \n\n' +
                     data.substr(0, 120) +
                     '...'
-            );
+            );*/
         });
 
+        $('#add').on('click', function (e) {
+            let tableBody = $('tbody')
+            
+        })
+        
+        // dropdown select
+        $('.dropdown-item').on('click', function (e) {
+            
+            var text =   $(this).text().trim(); 
+            var chihoiDropDown = document.getElementById('chihoiDropDown')
+            var idSelectDropDown = document.getElementById('idSelectDropDown')
+            idSelectDropDown.innerHTML = $(this).attr('id')
+            chihoiDropDown.value = text
+        })
+        
 
-
+        // dropdown search
+        $('.dropdown-search').on('keyup', function() {
+            
+            var filter = $(this).val().toLowerCase();
+            $('.dropdown-chihoi .dropdown-item').each(function() {
+                var text = $(this).text().toLowerCase();
+                if (text.indexOf(filter) > -1) {
+                $(this).show();
+                } else {
+                $(this).hide();
+                }
+            });
+        });
           
+
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("closeModel")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+            var dropdownChihoi = document.getElementById("dropdown-chihoi")
+            dropdownChihoi.innerHTML = ""
+
+            for(let i = 0 ; i< jsonChiHoiKhongThamGia.length ; i++){
+                //<a id="27" class="dropdown-item" href="#">Option 1</a>
+                let a = document.createElement("a")
+                a.id = jsonChiHoiKhongThamGia[i].id
+                a.className="dropdown-item"
+                a.href = "#"
+                a.innerHTML =  jsonChiHoiKhongThamGia[i].name
+                dropdownChihoi.append(a)
+            }
+            $('.dropdown-item').on('click', function (e) {
+                
+                var text =   $(this).text().trim(); 
+                var chihoiDropDown = document.getElementById('chihoiDropDown')
+                var idSelectDropDown = document.getElementById('idSelectDropDown')
+                idSelectDropDown.innerHTML = $(this).attr('id')
+                chihoiDropDown.value = text
+            })
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        }
     </script>
 </body>
 

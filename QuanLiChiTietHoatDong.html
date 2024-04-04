@@ -127,6 +127,10 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
         </ul>
 
         <!-- Content Wrapper -->
@@ -331,6 +335,30 @@
                 [5, 10, 20, -1],
                 [5, 10, 20, 'Toàn bộ'],
             ],
+            language: {
+                "decimal":        "",
+                "emptyTable":     "Không có dữ liệu",
+                "info":           "Hiển thị từ dòng _START_ tới dòng _END_ của _TOTAL_ dòng",
+                "infoEmpty":      "Hiển thị từ dòng 0 tới dòng 0 của 0 dòng",
+                "infoFiltered":   "5",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Hiển thị _MENU_ dòng",
+                "loadingRecords": "Đang tải...",
+                "processing":     "",
+                "search":         "Tìm kiếm:",
+                "zeroRecords":    "Dữ liệu không tìm thấy",
+                "paginate": {
+                    "first":      "Đầu tiên",
+                    "last":       "Cuối cùng",
+                    "next":       "Sau",
+                    "previous":   "Trước"
+                },
+                "aria": {
+                    "orderable":  "Sắp xếp tăng dần theo cột này",
+                    "orderableReverse": "Sắp xếp giảm dần theo cột này"
+                }
+              }
         });
          
         $('#submit').on('click', function (e) {
